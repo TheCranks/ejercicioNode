@@ -45,14 +45,14 @@ exports.getValidationProtocol = (protocol,scan) => {
             break;
         case "closest-enemies":
             //coordenadas = funciones.objetivoMasCerca(scan,'');
-            coordenadas = funciones.siguienteObjetivo(scan,'','cerca');
+            coordenadas = funciones.siguienteObjetivo(scan,'','cerca','');
             break;
         case "prioritize-mech":
             coordenadas = funciones.seleccionMech(scan,'priorizaMech');
             break;
 
         case "furthest-enemies":
-            coordenadas = funciones.siguienteObjetivo(scan,'','lejos')
+            coordenadas = funciones.siguienteObjetivo(scan,'','lejos','')
             break;
         case "assist-allies":
             //prioriza donde haya algun aliado
@@ -65,13 +65,13 @@ exports.getValidationProtocol = (protocol,scan) => {
         case "avoid-mech,closest-enemies":
 
             //coordenadas = funciones.objetivoMasCerca(scan,'evitaMech')
-            coordenadas = funciones.siguienteObjetivo(scan,'evitaMech','cerca')
+            coordenadas = funciones.siguienteObjetivo(scan,'evitaMech','cerca','')
             break;
         case "avoid-mech,furthest-enemies":
-           coordenadas = funciones.siguienteObjetivo(scan,"evitaMech",'lejos');
+           coordenadas = funciones.siguienteObjetivo(scan,"evitaMech",'lejos','');
             break;
         case "closest-enemies,prioritize-mech":
-            coordenadas = funciones.siguienteObjetivo(scan,"priorizaMech","cerca");
+            coordenadas = funciones.siguienteObjetivo(scan,"priorizaMech","cerca",'');
             break;
         case "avoid-crossfire,closest-enemies,prioritize-mech":
             coordenadas = funciones.siguienteObjetivo(scan,"priorizaMech","cerca","aliados");
