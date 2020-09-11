@@ -68,20 +68,16 @@ exports.getValidationProtocol = (protocol,scan) => {
             coordenadas = funciones.siguienteObjetivo(scan,'evitaMech','cerca')
             break;
         case "avoid-mech,furthest-enemies":
-           coordenadas = obtieneMasLejos(scan,true);
+           coordenadas = funciones.siguienteObjetivo(scan,"evitaMech",'lejos');
             break;
         case "closest-enemies,prioritize-mech":
-            coordenadas = obtieneMasCerca(scan,2,false);
+            coordenadas = funciones.siguienteObjetivo(scan,"priorizaMech","cerca");
             break;
         case "avoid-crossfire,closest-enemies,prioritize-mech":
-            coordenadas = obtieneMasCerca(scan,3, true);
+            coordenadas = funciones.siguienteObjetivo(scan,"priorizaMech","cerca","aliados");
             break;
     }
 return coordenadas;
-
 };
-exports.saludar =() =>{
-  console.log("Hola desde protocolo");
-}
 
 

@@ -33,141 +33,7 @@ class Funciones {
         return coordenadas;
     }
 
-    objetivoMasCerca(escaner, objetivoMech){
-        var coordenadas = {};
-        var escanerFiltrado = [];
-        var distanciaMenor = 999;
-
-        var menorY = 0;
-        var menorX = 0;
-
-        //solo si tiene como principal a los mech o no, si no existe parametro, obtiene el mas cerca en general
-        if (objetivoMech!==''){
-            escanerFiltrado = this.ejecutarFiltroMech(escaner, objetivoMech)
-            if (Object.keys(escanerFiltrado).length) {
-                escaner = escanerFiltrado
-            }
-        }
-
-        escaner.forEach(function(sc){
-            if (menorX ===0 && menorY===0){ //es la primera iteracion, se toma el primero como menor
-                menorX= sc.coordinates.x;
-                menorY = sc.coordinates.y
-
-            }
-
-            var band = sc.coordinates.y + sc.coordinates.x;
-
-            if (band<distanciaMenor){
-
-                distanciaMenor= band;
-
-                if (sc.coordinates.y<menorY){
-                    menorX= sc.coordinates.x;
-                    menorY = sc.coordinates.y
-                }
-
-
-                coordenadas ={
-                    "x":sc.coordinates.x,
-                    "y":sc.coordinates.y
-                }
-            }
-
-            else if (band === distanciaMenor){
-
-                if (sc.coordinates.y<menorY){
-                    coordenadas ={
-                        "x":sc.coordinates.x,
-                        "y":sc.coordinates.y
-                    }
-                }
-                else{
-                    coordenadas ={
-                        "x":menorX,
-                        "y":menorY
-                    }
-                }
-            }
-
-            if (sc.coordinates.y<menorY){
-                coordenadas ={
-                    "x":sc.coordinates.x,
-                    "y":sc.coordinates.y
-                }
-            }
-            else{
-                coordenadas ={
-                    "x":menorX,
-                    "y":menorY
-                }
-            }
-
-
-        });
-        return coordenadas;
-    }
-
-    objetivoMasLejos(escaner, objetivoMech){
-        var coordenadas = {};
-        var escanerFiltrado = [];
-        var distanciaMayor = 0;
-
-        var mayorY = 0;
-        var mayorX = 0;
-
-        //solo si tiene como principal a los mech o no, si no existe parametro, obtiene el mas cerca en general
-        if (objetivoMech!==''){
-            escanerFiltrado = this.ejecutarFiltroMech(escaner, objetivoMech)
-            if (Object.keys(escanerFiltrado).length) {
-                escaner = escanerFiltrado
-            }
-        }
-
-        escaner.forEach(function(sc){
-            if (mayorX ===0 && mayorY===0){ //es la primera iteracion, se toma el primero como menor
-                mayorX= sc.coordinates.x;
-                mayorY = sc.coordinates.y
-
-            }
-
-            var band = sc.coordinates.y + sc.coordinates.x;
-
-            if (band>distanciaMayor){
-
-                if (sc.coordinates.y>mayorY){
-                    mayorX= sc.coordinates.x;
-                    mayorY = sc.coordinates.y
-                }
-
-                distanciaMayor= band
-                coordenadas ={
-                    "x":sc.coordinates.x,
-                    "y":sc.coordinates.y
-                }
-            }
-
-            else if (band === distanciaMayor){
-
-                if (sc.coordinates.y>mayorY){
-                    coordenadas ={
-                        "x":sc.coordinates.x,
-                        "y":sc.coordinates.y
-                    }
-                }
-                else{
-                    coordenadas ={
-                        "x":mayorX,
-                        "y":mayorY
-                    }
-                }
-            }
-        });
-        return coordenadas;
-    }
-
-    siguienteObjetivo(escaner,objetivoMech,distancia){
-        var comparar = distancia==="lejos"?">":"<";
+    siguienteObjetivo(escaner,objetivoMech,distancia, indicacion){
         var coordenadas = {};
         var distanciaObjetivo =distancia==="lejos"?0:999;
         var escanerFiltrado = [];
@@ -178,7 +44,6 @@ class Funciones {
                 escaner = escanerFiltrado
             }
         }
-
         escaner.forEach(function(sc){
             var distanciaTemp = 0;
 
@@ -187,19 +52,26 @@ class Funciones {
 
             if (distancia ==="lejos"){
                 if (distanciaTemp > distanciaObjetivo  ){
-                    console.log("Nuevo lejano: "+sc.coordinates.x +", "+sc.coordinates.y +" con " +distanciaTemp+" Metros");
                     distanciaObjetivo = distanciaTemp;
                     coordenadas = {"x":sc.coordinates.x, "y":sc.coordinates.y};
                 }
             }
             else if(distancia ==="cerca"){
                 if (distanciaTemp < distanciaObjetivo  ){
-                    distanciaObjetivo = distanciaTemp;
-                    coordenadas = {"x":sc.coordinates.x, "y":sc.coordinates.y};
+                    if (indicacion ==="evitaAliados"){
+                        distanciaObjetivo = distanciaTemp;
+                        if (!sc.hasOwnProperty('allies')){
+                            coordenadas ={
+                                "x":sc.coordinates.x,
+                                "y":sc.coordinates.y
+                            }
+                        }
+                    }
+                    //distanciaObjetivo = distanciaTemp;
+                    //coordenadas = {"x":sc.coordinates.x, "y":sc.coordinates.y};
                 }
             }
         });
-
         return coordenadas;
     }
 
