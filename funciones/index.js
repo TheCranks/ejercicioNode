@@ -44,12 +44,12 @@ class Funciones {
                 escaner = escanerFiltrado
             }
         }
+
         escaner.forEach(function(sc){
             var distanciaTemp = 0;
 
             //calcula distancia entre 2 puntos
             distanciaTemp = Math.sqrt(Math.pow(sc.coordinates.x, 2) + Math.pow(sc.coordinates.y,2));
-
             if (distancia ==="lejos"){
                 if (distanciaTemp > distanciaObjetivo  ){
                     distanciaObjetivo = distanciaTemp;
@@ -66,6 +66,10 @@ class Funciones {
                                 "y":sc.coordinates.y
                             }
                         }
+                    }
+                    else{
+                        distanciaObjetivo = distanciaTemp;
+                        coordenadas = {"x":sc.coordinates.x, "y":sc.coordinates.y};
                     }
                     //distanciaObjetivo = distanciaTemp;
                     //coordenadas = {"x":sc.coordinates.x, "y":sc.coordinates.y};
